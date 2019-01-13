@@ -1,0 +1,29 @@
+from textblob import TextBlob
+import sys, tweepy
+import matplotlib.pyplot as plt
+
+
+def percentage(part, whole):
+    return 100 * float(part)/float(whole)
+#geef de api in 
+accessToken = "915852961863159809-uD7FdEJTZZslrhmL1c1AlJNu5ywkybC"
+accessTokensecret = "Yu6UuvMdTAiLLgZ71TC814tULVUU6QfIkVYILPffV54AC"
+consumerKey = "gHgmQTkeJx1ZrdW6kO904tXHd"
+consumerSecret = "QKP8O7f3hY0UgW5OKkMsUaBJw9XFv7OLRkrDBl2GyLi94wb2vn"
+
+auth = tweepy.OAuthHandler(consumerKey, consumerSecret)
+auth.set_access_token(accessToken, accessTokensecret)
+api = tweepy.API(auth)
+# zoek naar publieke tweets
+public_tweets = api.search('trump')
+# bekijkt de gevoelens van de tweets 
+for tweet in public_tweets:
+    print(tweet.text)
+    analysis = TextBlob(tweet.text)
+    print(analysis.sentiment)
+    if analysis.sentiment[0]>0:
+       print ('Positive')
+    elif analysis.sentiment[0]<0:
+       print ('Negative')
+    else:
+       print ('Neutral')
